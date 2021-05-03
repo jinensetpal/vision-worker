@@ -151,14 +151,14 @@ class PredictorWorker():
                     tt.tic() # don't account for init
                 elif method['name'] == 'predict':
                     assert predictor is not None, "Predictor was not initialized"
-                    panoptic_seg, segments_info = predictor(im)["panoptic_seg"]
-                    v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
+                    panoptic_seg, segments_info = predictor(image)["panoptic_seg"]
+                    v = Visualizer(image[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
                     out = v.draw_panoptic_seg_predictions(panoptic_seg.to("cpu"), segments_info)
                     result = out.get_image()[:, :, ::-1]
                 else:
                     assert predictor is not None, "Predictor was not initialized"
-                    panoptic_seg, segments_info = predictor(im)["panoptic_seg"]
-                    v = Visualizer(im[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
+                    panoptic_seg, segments_info = predictor(image)["panoptic_seg"]
+                    v = Visualizer(image[:, :, ::-1], MetadataCatalog.get(cfg.DATASETS.TRAIN[0]), scale=1.2)
                     out = v.draw_panoptic_seg_predictions(panoptic_seg.to("cpu"), segments_info)
                     result = out.get_image()[:, :, ::-1]
                 timing.add('CALL', tt.toc())
